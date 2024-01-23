@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserAuth } from '../context/AuthContext'
 
 const Login = () => {
 
@@ -8,9 +9,19 @@ const Login = () => {
   const[email,setEmail] = useState('')
   const[password,setPassword] = useState('')
 
-const handleSubmit =(e) =>{
+  const {user,logIn} = UserAuth()
+  const navigate = useNavigate()
 
+
+const handleSubmit =async (e) =>{
   e.preventDefault()
+  try {
+    await logIn(email,password)
+    navigate('/')
+    
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 
